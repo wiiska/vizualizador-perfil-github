@@ -1,5 +1,5 @@
 import { elements, renderLoading, renderUserProfile, clearProfileResults, showAlert } from './ui.js';
-import { fetchGitHubUser } from './githubApi.js';
+import { fetchGitHubUser, fetchGitHubRepos } from './githubApi.js';
 
 async function handleSearch() {
     const userName = elements.inputSearch.value.trim();
@@ -14,7 +14,8 @@ async function handleSearch() {
 
     try {
         const userData = await fetchGitHubUser(userName);
-        renderUserProfile(userData);
+        const userRepos = await fetchGitHubRepos(userName);
+        renderUserProfile(userData, userRepos);
     } catch (error) {
         showAlert(error.message);
         clearProfileResults();
